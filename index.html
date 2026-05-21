@@ -1,157 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: rgb(12, 15, 26);
+            border: 1px solid rgb(26, 31, 46);
+            color: white;
+        }
+
+        .list {
+            display: flex;
+            list-style: none;
+            justify-content: center;
             padding: 0;
         }
 
-        body{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: rgb(12, 15, 26);
+        li {
+            font-size: 36px;
+            animation: rotate 2s linear;
+            margin: 0 5px;
         }
 
-        .linear {
-            width: 500px;
-            height: 10px;
-            border: 1px solid white;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-        span {
-            display: block;
-            width: 100%;
-            height: 100%;
-            background-color: green;
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(1080deg);
+            }
         }
 
-        .text{
-            color: white;
-            display: flex;
-            justify-content: center;
-        }
-        button {
-            width: 50px;
-            height: 50px; 
-            border-radius: 10px;
-            color: white;
-            margin-bottom: 20px;
+        .container {
+            text-align: center;
         }
 
-        .reset{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 500px;
-            background: linear-gradient(135deg, rgba(74, 82, 112, 0.8), rgba(74, 82, 112, 0.533));
+        .range {
+            margin-bottom: 10px;
         }
 
-        .button-wrapper{
-            display: flex;
-            justify-content: center;
-        }
-
-        .minus{
-            background-color: red;
-        }
-        .minus2{
-            background-color: red;
-        }
-
-        .pilus{
-            background-color: green;
-        }
-        .pilus2{
-            background-color: green;
+        .click {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h1 class="text"></h1>
-        <div class="linear">
-            <span></span>
-        </div>
-
-        <div class="button-wrapper">
-        <button class="minus2">-1</button>
-        <button class="minus">-10</button>
-        <button class="pilus">+10</button>
-        <button class="pilus2">+1</button>
-        </div>
-        <button class="reset">Reset</button>
+        <input type="range" min="1" max="6" class="range">
+        <ul class="list"></ul>
+        <button class="click">Click</button>
     </div>
 
     <script>
-        const elMinus = document.querySelector(".minus")
-        const elPilus = document.querySelector(".pilus")
-        const elMinus2 = document.querySelector(".minus2")
-        const elPilus2 = document.querySelector(".pilus2")
-        const elText = document.querySelector(".text")
-        const elSpan = document.querySelector("span")
-        const elReset = document.querySelector(".reset")
-        let counter = 0
-        elText.innerHTML = counter
-        elPilus.onclick = () => {
-            counter += 10
-            elText.innerHTML = counter
-            elSpan.style.width = `${counter}%`
-            if (counter > 0) {
-                elSpan.style.backgroundColor = "green"
-                elText.style.color = "green"
+        let zarralar = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"]
+        let randomZarlar = [];
+
+        const range = document.querySelector(".range");
+        const list = document.querySelector(".list");
+        const click = document.querySelector(".click");
+        let counter = 0;
+
+        range.oninput = () => {
+            let value = range.value;
+            list.innerHTML = "";
+            counter = value;
+
+            for (let i = 0; i < value; i++) {
+                let li = document.createElement("li");
+                li.innerHTML = zarralar[i];
+                list.appendChild(li);
             }
         }
 
-
-        elMinus.onclick = () => {
-            counter -= 10
-            elText.innerHTML = counter
-            elSpan.style.width = `${Math.abs(counter)}%`
-            if (counter < 0) {
-                elSpan.style.backgroundColor = "red"
-                elText.style.color = "red"
+        click.onclick = () => {
+            randomZarlar = [];
+            for (let i = 0; i < counter; i++) {
+                randomZarlar.push(zarralar[Math.floor(Math.random() * 6)]);
             }
+            update();
+            console.log(randomZarlar);
         }
 
-
-        elPilus2.onclick = () => {
-            counter += 1
-            elText.innerHTML = counter
-            elSpan.style.width = `${counter}%`
-            if (counter > 0) {
-                elSpan.style.backgroundColor = "green"
-                elText.style.color = "green"
-            }
-        }
-
-
-        elMinus2.onclick = () => {
-            counter -= 1
-            elText.innerHTML = counter
-            elSpan.style.width = `${Math.abs(counter)}%`
-            if (counter < 0) {
-                elSpan.style.backgroundColor = "red"
-                elText.style.color = "red"
-            }
-        }
-
-        elReset.onclick = () => {
-            counter = 0
-            elSpan.style.width = `${Math.abs(counter)}%`
-            elText.innerHTML = counter
+        function update() {
+            list.innerHTML = "";
+            randomZarlar.forEach(el => {
+                let li = document.createElement("li");
+                li.innerHTML = el;
+                list.appendChild(li);
+            });
         }
     </script>
 </body>
-
 </html>
